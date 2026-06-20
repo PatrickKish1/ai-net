@@ -1,4 +1,4 @@
-export interface AgentRecord {
+export interface Agent {
   id: string;
   name: string;
   capability: string;
@@ -6,22 +6,23 @@ export interface AgentRecord {
   stellarAddress: string;
 }
 
-const registry = new Map<string, AgentRecord>();
+const agents = new Map<string, Agent>();
 
-export function registerAgent(agent: AgentRecord): void {
-  registry.set(agent.id, agent);
+export function registerAgent(agent: Agent): Agent {
+  agents.set(agent.id, agent);
+  return agent;
 }
 
-export function discoverAgents(capability: string): AgentRecord[] {
-  return Array.from(registry.values()).filter(
+export function discoverAgents(capability: string): Agent[] {
+  return Array.from(agents.values()).filter(
     (agent) => agent.capability === capability,
   );
 }
 
-export function getAgent(id: string): AgentRecord | undefined {
-  return registry.get(id);
+export function getAgent(id: string): Agent | undefined {
+  return agents.get(id);
 }
 
 export function clearRegistry(): void {
-  registry.clear();
+  agents.clear();
 }
